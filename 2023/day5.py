@@ -25,6 +25,7 @@ def get_maps(full_data):
 
 def get_seed_range_id(seed, map_of_ranges):
     for range_id, data in map_of_ranges.items():
+
         _, source, length = data
         if source <= seed < source + length:
             return range_id
@@ -56,7 +57,7 @@ def find_smallest(full_data):
     return minimum
 
 
-def hacky_find_smallest_in_range(rng, all_maps, step):
+def smallest_in_range(rng, all_maps, step):
     minimum = (-1, -1)
     for current in range(rng[0], rng[0]+rng[1], step):
         tested_seed = current
@@ -67,7 +68,7 @@ def hacky_find_smallest_in_range(rng, all_maps, step):
     return minimum
 
 
-def hacky_hacky_find_smallest_in_ranges(full_data):
+def find_smallest_in_ranges(full_data):
     seed_ranges = get_seed_ranges(full_data)
     all_maps = get_maps(full_data)
     minimum = -1
@@ -76,8 +77,8 @@ def hacky_hacky_find_smallest_in_ranges(full_data):
     stop_step = 10_000
 
     while step >= stop_step:
-        for rng in seed_ranges:
-            range_minimum = hacky_find_smallest_in_range(rng, all_maps, step)
+        for seed_range in seed_ranges:
+            range_minimum = smallest_in_range(seed_range, all_maps, step)
             if minimum == -1 or range_minimum < minimum:
                 minimum = range_minimum
         candidate_range = (minimum[1] - step, step * 10)
@@ -86,7 +87,7 @@ def hacky_hacky_find_smallest_in_ranges(full_data):
 
     final_candidate = (seed_ranges[0][0] - step, step * 10)
 
-    return hacky_find_smallest_in_range(final_candidate, all_maps, 1)[0]
+    return smallest_in_range(final_candidate, all_maps, 1)[0]
 
 
 
@@ -96,4 +97,4 @@ data = f.read()
 paragraphs = data.split('\n\n')
 
 print(find_smallest(paragraphs))
-print(hacky_hacky_find_smallest_in_ranges(paragraphs))
+print(find_smallest_in_ranges(paragraphs))

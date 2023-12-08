@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 NEIGHBOURS = [[0, 1], [1, 0], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, -1], [1, 1]]
 
 
@@ -25,7 +27,6 @@ with open('input3.txt') as f:
                 # we already know this number is adjacent to a symbol
                 if adjacent:
                     continue
-
                 # look for symbols adjacent to a number
                 for dx, dy in NEIGHBOURS:
                     x, y = j + dx, i + dy
@@ -50,21 +51,10 @@ with open('input3.txt') as f:
 
     print(part_number_sum)
 
-
-from collections import defaultdict
-
-NEIGHBOURS = [[0, 1], [1, 0], [0, -1], [-1, 0], [-1, 1], [-1, -1], [1, -1], [1, 1]]
-
-
-def number_from_digits(digits: list[str]):
-    return int(''.join(digits))
-
-
 with open('input3.txt') as f:
     lines = f.readlines()
     gear_ratio_candidates = defaultdict(
         list)  # for symbols '*' at position (x, y) we will keep track of adjacent numbers
-
     max_x = len(lines[0].strip())
     max_y = len(lines)
 
@@ -110,6 +100,5 @@ with open('input3.txt') as f:
             part_number = number_from_digits(digits)
             for xy in adjacent:
                 gear_ratio_candidates[xy].append(part_number)
-
     # calculate and print sum of gear ratios
     print(sum(gears[0] * gears[1] for gears in gear_ratio_candidates.values() if len(gears) == 2))
