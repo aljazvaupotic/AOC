@@ -1,3 +1,6 @@
+import time
+
+
 def calculate_differences(arr):
     if all(diff == 0 for diff in arr):
         arr.append(0)
@@ -20,14 +23,29 @@ def calculate_differences2(arr):
     return result
 
 
+st = time.time()
 # f = open("demo9.txt")
 f = open("input9.txt")
 data = f.readlines()
 values = [(x.strip()).split(" ") for x in data]
+m = reversed(values)
 r = []
 f = []
 for line in values:
     tmp = list(map(int, line))
     r.append(calculate_differences(tmp)[-1])
     f.append(calculate_differences2(tmp)[0])
+
+
 print(sum(r), sum(f))
+
+print(" Total run time")
+print("--- %s seconds ---" % (time.time() - st))
+t = time.time()
+a = []
+for line in values:
+    tmp = list(map(int, line))
+    a.append(calculate_differences(tmp)[-1])
+print(sum(r))
+print(" Total run time")
+print("--- %s seconds ---" % (time.time() - t))
